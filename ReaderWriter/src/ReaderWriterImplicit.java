@@ -1,9 +1,9 @@
 
-public class readerWriterImplicit {
+public class ReaderWriterImplicit {
 	int readerCount;
 	int writerCount;
 	
-	public readerWriterImplicit(){
+	public ReaderWriterImplicit(){
 		readerCount = 0;
 		writerCount = 0;
 	}

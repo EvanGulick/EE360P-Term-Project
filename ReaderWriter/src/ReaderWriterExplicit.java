@@ -2,7 +2,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class readerWriterExplicit {
+public class ReaderWriterExplicit {
 	int readerCount;
 	int writerCount;
 	int writerSleeping;
@@ -11,7 +11,7 @@ public class readerWriterExplicit {
 	private final Condition readerWait = lock.newCondition();
 	private final Condition writerWait = lock.newCondition();
 	
-	public readerWriterExplicit(){
+	public ReaderWriterExplicit(){
 		readerCount = 0;
 		writerCount = 0;
 		writerSleeping = 0;

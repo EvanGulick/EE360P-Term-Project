@@ -1,4 +1,4 @@
 
-public class diningPhilosopherImplicit {
-
+public class DiningPhilosopherImplicit {
+	
 }

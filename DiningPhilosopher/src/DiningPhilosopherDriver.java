@@ -1,4 +1,4 @@
 
-public class diningPhilosopherDriver {
+public class DiningPhilosopherDriver {
 
 }
