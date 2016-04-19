@@ -6,6 +6,7 @@ public class BoundedBufferMonitorExplicit {
     int inBuf = 0, outBuf = 0, count = 0;
     public synchronized void deposit(Object value) {
         while (count == size) // buffer full
+            myUtil.myWait(this);
         buffer[inBuf] = value;
         inBuf = (inBuf + 1) % size;
         count++;
@@ -15,6 +16,7 @@ public class BoundedBufferMonitorExplicit {
     public synchronized Object fetch() {
         Object value;
         while (count == 0) // buffer empty
+            myUtil.myWait(this);
         value = buffer[outBuf];
         outBuf = (outBuf + 1) % size;
         count--;

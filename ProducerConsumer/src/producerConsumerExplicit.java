@@ -12,6 +12,7 @@ class Producer implements Runnable {
             item = r.nextDouble();
             System.out.println("produced item " + item);
             b.deposit(item);
+            myUtil.mySleep(200);
         }
     }
 }
@@ -26,6 +27,7 @@ class Consumer implements Runnable {
         while (true) {
             item = (Double) b.fetch();
             System.out.println("fetched item " + item);
+             myUtil.mySleep(50);
         }
     }
 }
