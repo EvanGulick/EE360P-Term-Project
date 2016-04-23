@@ -5,16 +5,27 @@ public class Condition {
 	private String comparator;
 	private PredicateVariable right;
 	
-	//private threadID;
+	private long threadID;
+	
 	
 	Condition(PredicateVariable left, String comparator, PredicateVariable right) {
 		this.left = left;
 		this.comparator = comparator;
 		this.right = right;
-		//this.threadID = 
+		this.threadID = Thread.currentThread().getId();
 	}
 	
-	boolean evaluate() {
+	public synchronized void await() {
+		try {
+			wait();
+		} catch (InterruptedException e) {}
+	}
+	
+	public synchronized void signal() {
+		notify();
+	}
+	
+	public boolean evaluate() {
 		if(comparator.equals("==")) {
 			return left.get() == right.get();
 		} else if (comparator.equals("!=")) {
@@ -30,5 +41,9 @@ public class Condition {
 		} else {
 			throw new IllegalArgumentException();
 		}
+	}
+	
+	public boolean isMine() {
+		return Thread.currentThread().getId() == threadID;
 	}
 }
