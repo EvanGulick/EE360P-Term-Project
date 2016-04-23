@@ -5,13 +5,10 @@ public class Condition {
 	private String comparator;
 	private PredicateVariable right;
 	
-	//private threadID;
-	
 	Condition(PredicateVariable left, String comparator, PredicateVariable right) {
 		this.left = left;
 		this.comparator = comparator;
 		this.right = right;
-		//this.threadID = 
 	}
 	
 	boolean evaluate() {
