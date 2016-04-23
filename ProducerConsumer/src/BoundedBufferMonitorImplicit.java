@@ -2,15 +2,25 @@
 public class BoundedBufferMonitorImplicit {
 
     //final int size = 10;
-	final PredicateVariable size = new PredicateVariable(10);
-    PredicateVariable count = new PredicateVariable(0);
-    PredicateVariable zero = new PredicateVariable(0);
-    Object[] buffer = new Object[size.get()];
-    int inBuf = 0, outBuf = 0;//, count = 0;
+	PredicateVariable size;
+    PredicateVariable count;
+    PredicateVariable zero;
+    Object[] buffer;
+    int inBuf;
+    int outBuf;
     
-    Manager manager = new Manager();
+    static Manager manager = new Manager();
     
-    public synchronized void deposit(Object value) {
+    public BoundedBufferMonitorImplicit() {
+    	this.size = new PredicateVariable(10);
+        this.count = new PredicateVariable(0);
+        this.zero = new PredicateVariable(0);
+        this.buffer = new Object[size.get()];
+        this.inBuf = 0;
+        this.outBuf = 0;
+    }
+    
+    public void deposit(Object value) {
     	Condition predicate = new Condition(count, "<", size);
     	manager.waituntil(predicate);
 
@@ -20,7 +30,8 @@ public class BoundedBufferMonitorImplicit {
         
         manager.finishedCS();
     }
-    public synchronized Object fetch() {
+    
+    public Object fetch() {
         Object value;
         Condition predicate = new Condition(count, ">", zero);
     	manager.waituntil(predicate);

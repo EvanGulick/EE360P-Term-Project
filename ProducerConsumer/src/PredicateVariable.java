@@ -1,29 +1,29 @@
 
 public class PredicateVariable {
 
-	private static int value;
+	private int value;
 	
 	public PredicateVariable(int newVal) {
 		value = newVal;
 	}
 	
-	public void increment() {
+	public synchronized void increment() {
 		value++;
 	}
 	
-	public void incrementBy(int addition) {
+	public synchronized void incrementBy(int addition) {
 		value += addition;
 	}
 	
-	public void decrement() {
+	public synchronized void decrement() {
 		value--;
 	}
 	
-	public void set(int newVal) {
+	public synchronized void set(int newVal) {
 		value = newVal;
 	}
 	
-	public int get() {
+	public synchronized int get() {
 		return value;
 	}
 	

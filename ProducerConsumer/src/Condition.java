@@ -8,6 +8,7 @@ public class Condition {
 	private long threadID;
 	
 	
+	
 	Condition(PredicateVariable left, String comparator, PredicateVariable right) {
 		this.left = left;
 		this.comparator = comparator;
@@ -18,13 +19,17 @@ public class Condition {
 	public synchronized void await() {
 		try {
 			wait();
-		} catch (InterruptedException e) {}
+		} catch (InterruptedException e) {
+			
+		} catch (IllegalMonitorStateException e) {
+			Thread.yield();
+		}
 	}
 	
 	public synchronized void signal() {
 		notify();
 	}
-	
+
 	public boolean evaluate() {
 		if(comparator.equals("==")) {
 			return left.get() == right.get();
