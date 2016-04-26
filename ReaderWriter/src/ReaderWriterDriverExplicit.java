@@ -2,12 +2,10 @@ import org.apache.commons.lang3.time.StopWatch;
 
 
 public class ReaderWriterDriverExplicit {
-	
-
-	    public static void main(String[] args) {
-	        ReaderWriterExplicit monitor = new ReaderWriterExplicit();
-	        Reader2 reader = new Reader2("1", monitor);
-	        Writer2 writer = new Writer2("1", monitor);
+    public static void main(String[] args) {
+        ReaderWriterExplicit monitor = new ReaderWriterExplicit();
+        Reader2 reader = new Reader2("1", monitor);
+        Writer2 writer = new Writer2("1", monitor);
 	}
 }
 class Reader2 implements Runnable {

@@ -7,9 +7,7 @@ public class Condition {
 	private PredicateVariable right;
 	
 	private long threadID;
-	
-	
-	
+
 	Condition(PredicateVariable left, String comparator, PredicateVariable right) {
 		this.left = left;
 		this.left2 = new PredicateVariable(-100);
@@ -41,7 +39,7 @@ public class Condition {
 	}
 
 	public boolean evaluate() {
-		if(this.left2.get() == -100){
+		if(this.left2.get() == -100) {
 			
 			if(comparator.equals("==")) {
 				return left.get() == right.get();
@@ -58,7 +56,7 @@ public class Condition {
 			} else {
 				throw new IllegalArgumentException();
 			}
-		}else{
+		} else {
 			if(comparator.equals("==")) {
 				return (left.get() == right.get() && left2.get() == right.get());
 			} else if (comparator.equals("!=")) {
@@ -74,7 +72,7 @@ public class Condition {
 			} else {
 				throw new IllegalArgumentException();
 			}
-			}
+		}
 	}
 	
 	public boolean isMine() {
