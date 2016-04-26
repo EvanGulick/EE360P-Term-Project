@@ -1,5 +1,6 @@
 import java.util.Random;
-	
+import org.apache.commons.lang3.time.StopWatch;	
+
 class Producer2 implements Runnable {
     BoundedBufferMonitorImplicit b = null;
     public Producer2(BoundedBufferMonitorImplicit initb) {
@@ -7,30 +8,38 @@ class Producer2 implements Runnable {
         new Thread(this).start();
     }
     public void run() {
+    	StopWatch watch = new StopWatch();
+    	watch.start();
         Double item;
         Random r = new Random();
-        while (true) {
+        for(int i = 0; i<100; i++) {
             item = r.nextDouble();
-            System.out.println("produced item " + item);
             b.deposit(item);
             myUtil.mySleep(200);
         }
+        watch.stop();
+        String result = watch.toString();
+        System.out.println("producer" + result);
     }
 }
 
 class Consumer2 implements Runnable {
     BoundedBufferMonitorImplicit b = null;
+    StopWatch watch2 = new StopWatch();
     public Consumer2(BoundedBufferMonitorImplicit initb) {
         b = initb;
         new Thread(this).start();
     }
     public void run() {
+    	watch2.start();
         Double item;
-        while (true) {
+       for(int i = 0; i<100; i++) {
             item = (Double) b.fetch();
-	        System.out.println("fetched item " + item);
 	        myUtil.mySleep(50);
         }
+        watch2.stop();
+        String result = watch2.toString();
+        System.out.println(result);
     }
 }
 

@@ -1,28 +1,36 @@
 
 public class ReaderWriterImplicit {
-	int readerCount;
-	int writerCount;
+	PredicateVariable readerCount;
+	PredicateVariable writerCount;
+	PredicateVariable zero;
+	
+	static Manager manager = new Manager();
 	
 	public ReaderWriterImplicit(){
-		readerCount = 0;
-		writerCount = 0;
+		this.readerCount = new PredicateVariable(0);
+		this.writerCount = new PredicateVariable(0);
+		this.zero = new PredicateVariable(0);
 	}
 	
 	public void startRead(){
-		while(writerCount == 0){}
-		readerCount += 1;
+		Condition predicate = new Condition(writerCount, "==", zero);
+    	manager.waituntil(predicate);
+		readerCount.increment();
 	}
 	
 	public void endRead(){
-		readerCount -= 1;
+		readerCount.decrement();
+		manager.finishedCS();
 	}
 	
 	public void startWrite(){
-		while(readerCount == 0 && writerCount == 0){}
-		writerCount = 1;
+		Condition predicate = new Condition(readerCount, writerCount, "==", zero);
+    	manager.waituntil(predicate);
+		writerCount.set(1);
 	}
 	
 	public void endWrite(){
-		writerCount = 0;
+		writerCount.set(0);
+		manager.finishedCS();
 	}
 }

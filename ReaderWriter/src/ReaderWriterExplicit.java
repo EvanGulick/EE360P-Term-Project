@@ -1,61 +1,43 @@
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+public class ReaderWriterExplicit{
 
-public class ReaderWriterExplicit {
-	int readerCount;
-	int writerCount;
-	int writerSleeping;
-	private final Lock lock = new ReentrantLock();
-	
-	private final Condition readerWait = lock.newCondition();
-	private final Condition writerWait = lock.newCondition();
-	
-	public ReaderWriterExplicit(){
-		readerCount = 0;
-		writerCount = 0;
-		writerSleeping = 0;
-	}
-	
-	public void startRead(){
-		if(writerCount != 0 || writerSleeping != 0){
-			try {
-				readerWait.await();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+	  private int readers       = 0;
+	  private int writers       = 0;
+	  private int writeRequests = 0;
+
+	  public synchronized void startRead(){
+	    while(writers > 0 || writeRequests > 0){
+	      try {
+			wait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		readerCount += 1;
-		readerWait.signalAll();
-	}
-	
-	public void endRead(){
-		readerCount -= 1;
-		if(readerCount == 0){
-			writerWait.signal();
+	    }
+	    readers++;
+	  }
+
+	  public synchronized void endRead(){
+	    readers--;
+	    notifyAll();
+	  }
+
+	  public synchronized void startWrite(){
+	    writeRequests++;
+
+	    while(readers > 0 || writers > 0){
+	      try {
+			wait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+	    }
+	    writeRequests--;
+	    writers++;
+	  }
+
+	  public synchronized void endWrite(){
+	    writers--;
+	    notifyAll();
+	  }
 	}
-	
-	public void startWrite(){
-		if(readerCount != 0 || writerCount != 0){
-			try {
-				writerSleeping += 1;
-				writerWait.await();
-				writerSleeping -= 1;
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		writerCount = 1;
-	}
-	
-	public void endWrite(){
-		writerCount = 0;
-		if(writerSleeping != 0){
-			writerWait.signal();
-		}
-		else{
-			readerWait.signalAll();
-		}
-	}
-}

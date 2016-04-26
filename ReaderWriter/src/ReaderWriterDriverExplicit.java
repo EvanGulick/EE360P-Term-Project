@@ -1,19 +1,20 @@
-import org.apache.commons.lang3.time.StopWatch;
+import org.apache.commons.lang3.time.StopWatch;	
 
-public class ReaderWriterDriver {
+
+public class ReaderWriterDriverExplicit {
 	
 
 	    public static void main(String[] args) {
-	        ReaderWriterImplicit monitor = new ReaderWriterImplicit();
-	        Reader reader = new Reader("1", monitor);
-	        Writer writer = new Writer("1", monitor);
+	        ReaderWriterExplicit monitor = new ReaderWriterExplicit();
+	        Reader2 reader = new Reader2("1", monitor);
+	        Writer2 writer = new Writer2("1", monitor);
 	}
 }
-class Reader implements Runnable {
-    private ReaderWriterImplicit M;
+class Reader2 implements Runnable {
+    private ReaderWriterExplicit M;
     private String value;
 
-    public Reader(String name, ReaderWriterImplicit c) {
+    public Reader2(String name, ReaderWriterExplicit c) {
         M = c;
         new Thread(this).start();
     }
@@ -23,9 +24,8 @@ class Reader implements Runnable {
     	watch.start();
         for (int i = 0; i < 1000; i++) {
             M.startRead();
-
+         
             // System.out.println("Reader "+getName()+" is retreiving data...");
-            //System.out.println("Reader is reading " + i);
             M.endRead();
         }
         watch.stop();
@@ -34,23 +34,22 @@ class Reader implements Runnable {
     }
 }
 
-class Writer implements Runnable {
-    private ReaderWriterImplicit M;
+class Writer2 implements Runnable {
+    private ReaderWriterExplicit M;
     private int value;
 
-    public Writer(String name, ReaderWriterImplicit d) {
+    public Writer2(String name, ReaderWriterExplicit d) {
         M = d;
         new Thread(this).start();
     }
 
     public void run() {
-    	StopWatch watch2 = new StopWatch();
+       	StopWatch watch2 = new StopWatch();
     	watch2.start();
         for (int j = 0; j < 1000; j++) {
             M.startWrite();
-
+   
             // System.out.println("Writer "+getName()+" is writing data...");
-            //System.out.println("Writer is writing " + j);
             M.endWrite();
         }
         watch2.stop();
