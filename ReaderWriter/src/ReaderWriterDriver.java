@@ -21,9 +21,14 @@ class Reader implements Runnable {
     public void run() {
     	StopWatch watch = new StopWatch();
     	watch.start();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 200; i++) {
             M.startRead();
-
+            try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             // System.out.println("Reader "+getName()+" is retreiving data...");
             //System.out.println("Reader is reading " + i);
             M.endRead();
@@ -46,9 +51,14 @@ class Writer implements Runnable {
     public void run() {
     	StopWatch watch2 = new StopWatch();
     	watch2.start();
-        for (int j = 0; j < 1000; j++) {
+        for (int j = 0; j < 200; j++) {
             M.startWrite();
-
+            try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
             // System.out.println("Writer "+getName()+" is writing data...");
             //System.out.println("Writer is writing " + j);
             M.endWrite();
